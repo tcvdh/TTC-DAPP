@@ -23,8 +23,8 @@ async function loginWeb3() {
 //   await Moralis.enableWeb3();
 // const web3 = new Web3(Moralis.provider);
   const chainId = await Moralis.getChainId();
-  if(chainId != 1) {
-    const newChainId = 1;
+  if(chainId != 137) {
+    const newChainId = 137;
     const chainIdHex = await Moralis.switchNetwork(newChainId);
   }
   // const getAccounts = await web3.eth.getAccounts();
@@ -39,7 +39,7 @@ async function loginWeb3() {
 }
 
 async function loginWalletConnect() {
-  const web3 = await Moralis.enableWeb3({ provider: "walletconnect", chainId: 1 });
+  const web3 = await Moralis.enableWeb3({ provider: "walletconnect", chainId: 137 });
   // const getAccounts = await web3.eth.getAccounts();
   const getAccounts = await web3.listAccounts();
   walletAddress = getAccounts[0];
