@@ -1,4 +1,4 @@
-import { whitelistAddresses, addresses } from './merkle.js?ver=1.0.0'
+import { whitelistAddresses, addresses } from './merkle.js?ver=2.0.0'
 import { ABI } from './abi.js';
 
 
