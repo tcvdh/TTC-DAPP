@@ -121,7 +121,6 @@ async function start() {
     document.getElementById("amounttext").style.visibility = "visible";
     return
   }
-  var amountt = amount[found];
   const options1 = {
     chain: "matic",
     address: "0xf034ADa7450C426E2cCaEF995d7aA226a45f7B80",
@@ -140,7 +139,7 @@ async function start() {
     document.getElementById('main').innerHTML = "already claimed";
     return
   }
-  document.getElementById('amounttext').innerHTML = `You can mint ${amountt}`;
+  document.getElementById('amounttext').innerHTML = `You can mint 2 free TTC NFTs`;
   document.getElementById("amounttext").style.visibility = "visible";
   document.getElementById('main').innerHTML = "MINT";
 }
