@@ -100,11 +100,18 @@ async function getTotalSupply() {
 
   async function mint() {
     var amount = parseInt(document.getElementById('amountNumber').value);
+    if(amount > 5) {
+      document.getElementById('amounttext').innerHTML = `You can't mint more than 5 at a time`;
+      $('#amounttext').addClass('text-danger');
+      return
+    }
     const singlePrice = await contract.price();
     const totalPrice = amount * singlePrice;
 
+    console.log(totalPrice);
+
     var overrideOptions = {
-      value: totalPrice
+      value: totalPrice.toString()
     }
 
     const receipt = await contract.mint(walletAddress, amount, overrideOptions);
@@ -121,6 +128,8 @@ async function main() {
     
   
     if(document.getElementById('main').innerHTML === "MINT") {
+      document.getElementById('amounttext').innerHTML = `Please select the amount you want to mint:`;
+      $('#amounttext').removeClass('text-danger');
       await mint();
       await getTotalSupply();  
     }
@@ -136,6 +145,7 @@ async function start() {
   getTotalSupply();
   document.getElementById('amounttext').innerHTML = `Please select the amount you want to mint:`;
   document.getElementById("amount").style.visibility = "visible";
+  $('#amounttext').removeClass('text-danger');
   document.getElementById("cost").style.visibility = "visible";
   document.getElementById("amounttext").style.visibility = "visible";
   document.getElementById('main').innerHTML = "MINT";
