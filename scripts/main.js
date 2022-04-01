@@ -1,12 +1,11 @@
-import { whitelistAddresses, addresses } from './merkle.js?ver=2.3.0'
 import { ABI } from './abi.js';
 
- const Web3Modal = window.Web3Modal.default;
- const WalletConnectProvider = window.WalletConnectProvider.default;
- const infuraProvider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684");
- const mainnetProvider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/a0ecf0217614452099724b8999730684");
- const infuraContract = new ethers.Contract("0xf034ADa7450C426E2cCaEF995d7aA226a45f7B80", ABI, infuraProvider)
- var contract;
+const Web3Modal = window.Web3Modal.default;
+const WalletConnectProvider = window.WalletConnectProvider.default;
+const infuraProvider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684");
+const mainnetProvider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/a0ecf0217614452099724b8999730684");
+const infuraContract = new ethers.Contract("0xf034ADa7450C426E2cCaEF995d7aA226a45f7B80", ABI, infuraProvider)
+var contract;
 
 
 // login
@@ -14,7 +13,6 @@ var walletAddress = "0x";
 getTotalSupply();
 
 async function loginWeb3() {
-  // console.log("hello")
 
   const providerOptions = {
     walletconnect: {
@@ -37,7 +35,6 @@ async function loginWeb3() {
   
   const currentChain = await provider.getNetwork()
   if(currentChain.chainId != 137) {
-    // console.log("hello")
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: '0x89' }], // chainId must be in hexadecimal numbers
@@ -56,9 +53,7 @@ async function loginWeb3() {
   
   document.getElementById('connect').innerHTML = fullAddress;
   getENS()
-  if(new Date().getTime() >= 1648821600000) {
-    start();
-  } else(startFree())
+  start()
 }
 
 async function getENS() {
@@ -68,34 +63,14 @@ async function getENS() {
 
   if(hasENS) {
     fullAddress = hasENS
+    document.getElementById('connect').innerHTML = fullAddress;
   }
-  document.getElementById('connect').innerHTML = fullAddress;
+  
 }
-
 
 async function getTotalSupply() {
     const totalSupply = await infuraContract.totalSupply()
     document.getElementById('totalSupply').innerHTML = `Minted: ${totalSupply}/10000`;
-  }
-
-
-  async function mintFree() {
-    const leafNodes = whitelistAddresses.map(addr => addr);
-    const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true});
-    var found = addresses.lastIndexOf(walletAddress);
-    if(found < 0) {
-      document.getElementById('amounttext').innerHTML = `You are not on the minting list. Maybe next time!`;
-      $('#amounttext').addClass('text-danger');
-      document.getElementById("amounttext").style.visibility = "visible";
-      return
-    }
-    var claimingAddress = leafNodes[found];
-    const hexProof = merkleTree.getHexProof(claimingAddress);
-
-        const receipt = await contract.freeMintPhase(walletAddress, found, hexProof);
-        console.log(receipt);
-        await startFree();
-    
   }
 
   async function mint() {
@@ -133,10 +108,6 @@ async function main() {
       await mint();
       await getTotalSupply();  
     }
-
-    if(document.getElementById('main').innerHTML === "MINT FREE") {
-      await mintFree();
-    }
   }
 
 
@@ -151,35 +122,4 @@ async function start() {
   document.getElementById('main').innerHTML = "MINT";
 }
 
-
-async function startFree() {
-  getTotalSupply();
-  var found = addresses.lastIndexOf(walletAddress);
-  if(found < 0) {
-    document.getElementById('amounttext').innerHTML = `You are not on the free mint whitelist`;
-    $('#amounttext').addClass('text-danger');
-    document.getElementById("amounttext").style.visibility = "visible";
-    return
-  }
-  const claimed = await contract.checkClaimed(found);
-
-  if(claimed === true) {
-    document.getElementById('amounttext').innerHTML = `You are not on the free mint whitelist`;
-    $('#amounttext').addClass('text-danger');
-    document.getElementById("amounttext").style.visibility = "visible";
-    document.getElementById('main').innerHTML = "already claimed";
-    return
-  }
-  document.getElementById('amounttext').innerHTML = `You can mint 2 free TTC NFTs`;
-  document.getElementById("amounttext").style.visibility = "visible";
-  document.getElementById('main').innerHTML = "MINT FREE";
-}
-
-
-
-
 document.getElementById("main").onclick = main;
-// document.getElementById("btn-login-metamask").onclick = loginWeb3;
-// document.getElementById("btn-login-coinbase").onclick = loginWeb3;
-// document.getElementById("btn-login-trustwallet").onclick = loginWeb3;
-// document.getElementById("btn-login-walletconnect").onclick = loginWalletConnect;
