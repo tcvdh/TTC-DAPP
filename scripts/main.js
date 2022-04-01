@@ -24,7 +24,6 @@ async function loginWeb3() {
         rpc: {137: "https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684"},
       }
     },
-
   };
 
   let web3Modal = new Web3Modal({
@@ -49,24 +48,28 @@ async function loginWeb3() {
   contract = new ethers.Contract("0xf034ADa7450C426E2cCaEF995d7aA226a45f7B80", ABI, signer)
 
   walletAddress = await signer.getAddress();
-  // var fullAddress;
-
-  // const hasENS = await mainnetProvider.lookupAddress(walletAddress);
-
-  // if(hasENS) {
-  //   fullAddress = hasENS
-  // } else {
-    const ethFirst = walletAddress.substring(0,4);
-    const ethLast = walletAddress.substring(38,42);
-    const fullAddress = `${ethFirst}...${ethLast}`;
-  // }
+  const ethFirst = walletAddress.substring(0,4);
+  const ethLast = walletAddress.substring(38,42);
+  const fullAddress = `${ethFirst}...${ethLast}`;
 
 
   
   document.getElementById('connect').innerHTML = fullAddress;
+  getENS()
   if(new Date().getTime() >= 1648821600000) {
     start();
   } else(startFree())
+}
+
+async function getENS() {
+  var fullAddress;
+
+  const hasENS = await mainnetProvider.lookupAddress(walletAddress);
+
+  if(hasENS) {
+    fullAddress = hasENS
+  }
+  document.getElementById('connect').innerHTML = fullAddress;
 }
 
 
