@@ -22,6 +22,14 @@ async function loginWeb3() {
         rpc: {137: "https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684"},
       }
     },
+    walletlink: {
+      package: WalletLink,
+      options: {
+        appName: "TTC", 
+        rpc: "https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684",
+        chainId: 137,
+      }
+    }
   };
 
   let web3Modal = new Web3Modal({
@@ -82,8 +90,6 @@ async function getTotalSupply() {
     }
     const singlePrice = await contract.price();
     const totalPrice = amount * singlePrice;
-
-    console.log(totalPrice);
 
     var overrideOptions = {
       value: totalPrice.toString()
