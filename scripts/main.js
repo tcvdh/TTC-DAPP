@@ -2,8 +2,8 @@ import { ABI } from './abi.js';
 
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
-const infuraProvider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684");
-const mainnetProvider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/a0ecf0217614452099724b8999730684");
+const infuraProvider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/c7c2b5c20e8d49b88de9c062afc45b2e");
+const mainnetProvider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/c7c2b5c20e8d49b88de9c062afc45b2e");
 const infuraContract = new ethers.Contract("0xf034ADa7450C426E2cCaEF995d7aA226a45f7B80", ABI, infuraProvider)
 var contract;
 
@@ -18,15 +18,15 @@ async function loginWeb3() {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: "a0ecf0217614452099724b8999730684",
-        rpc: {137: "https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684"},
+        infuraId: "c7c2b5c20e8d49b88de9c062afc45b2e",
+        rpc: {137: "https://polygon-mainnet.infura.io/v3/c7c2b5c20e8d49b88de9c062afc45b2e"},
       }
     },
     walletlink: {
       package: WalletLink,
       options: {
         appName: "TTC", 
-        rpc: "https://polygon-mainnet.infura.io/v3/a0ecf0217614452099724b8999730684",
+        rpc: "https://polygon-mainnet.infura.io/v3/c7c2b5c20e8d49b88de9c062afc45b2e",
         chainId: 137,
       }
     }
